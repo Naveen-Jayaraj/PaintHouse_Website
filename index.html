@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ColorCraft Painters | Artistic & Professional</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+    <!-- Header / Navigation -->
+    <header id="main-header">
+        <div class="container nav-container">
+            <a href="#home" class="logo">
+                Color<span class="c-1">C</span><span class="c-2">r</span><span class="c-3">a</span><span class="c-4">f</span><span class="c-5">t</span>
+            </a>
+            
+            <button class="mobile-menu-btn" aria-label="Toggle navigation">
+                <span></span><span></span><span></span>
+            </button>
+
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#projects">Projects</a></li>
+                    <li><a href="#tools">Tools</a></li>
+                    <li><a href="#blog">Blog</a></li>
+                    <li><a href="#contact" class="btn-nav">Get a Quote</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Home Section -->
+        <section id="home">
+            <div class="hero">
+                <div class="hero-overlay"></div>
+                <div class="container hero-content fade-in">
+                    <!-- Typing Effect -->
+                    <h1>We Paint <span class="txt-type" data-wait="2000" data-words='["Homes", "Offices", "Interiors", "Dreams"]'></span></h1>
+                    <p>More than just paint. We create atmosphere, mood, and vibrant spaces.</p>
+                    <div class="hero-btns">
+                        <a href="#contact" class="btn btn-primary">Free Quote</a>
+                        <a href="#projects" class="btn btn-secondary">View Art</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Featured Carousel -->
+            <div class="carousel-section fade-in">
+                <div class="container">
+                    <h3>Featured Transformations</h3>
+                </div>
+                <div class="carousel-container" id="project-carousel">
+                    <div class="carousel-track"></div>
+                </div>
+            </div>
+
+            <!-- Achievements -->
+            <div class="achievements container fade-in">
+                <div class="stat-card">
+                    <div class="icon" style="color: var(--primary);">🏠</div>
+                    <h3 class="counter" data-target="200">0</h3>
+                    <p>Homes Painted</p>
+                </div>
+                <div class="stat-card">
+                    <div class="icon" style="color: var(--accent);">🎨</div>
+                    <h3 class="counter" data-target="5000">0</h3>
+                    <p>Gallons Used</p>
+                </div>
+                <div class="stat-card">
+                    <div class="icon" style="color: var(--highlight);">⭐</div>
+                    <h3>4.9</h3>
+                    <p>Client Rating</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section (White BG with Dividers) -->
+        <section id="about" class="section-padding bg-white relative-section">
+            <div class="blob blob-1"></div>
+            
+            <div class="container about-grid">
+                <div class="about-image fade-in">
+                    <img src="https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&q=80&w=800" alt="Painter working on a wall">
+                </div>
+                <div class="about-text fade-in">
+                    <h2 class="section-title" data-watermark="Studio">Who <span class="highlight-text">We Are</span></h2>
+                    <p>At ColorCraft, we don't just cover walls; we curate experiences. We believe a fresh coat of paint does more than just renovate—it transforms your mood.</p>
+                    <ul class="values-list">
+                        <li>✨ Precision Edging</li>
+                        <li>🧹 Dust-free Cleanliness</li>
+                        <li>🌿 Premium Eco-Paints</li>
+                    </ul>
+                    <a href="#projects" class="btn btn-primary" style="margin-top:20px;">See Our Projects</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="section-padding">
+            <div class="container">
+                <h2 class="section-title text-center" data-watermark="Portfolio">Our <span class="highlight-text">Masterpieces</span></h2>
+                
+                <!-- Filters -->
+                <div class="filters text-center fade-in">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="interior">Interior</button>
+                    <button class="filter-btn" data-filter="exterior">Exterior</button>
+                    <button class="filter-btn" data-filter="commercial">Commercial</button>
+                </div>
+
+                <!-- Grid -->
+                <div class="project-grid" id="project-grid">
+                    <!-- JS Injects Cards Here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- PROFESSIONAL FAN DECK TOOL (White BG with Dividers) -->
+        <section id="tools" class="section-padding bg-white relative-section">
+            <div class="blob blob-2"></div>
+            <div class="container">
+                
+                <div class="shade-card-interface fade-in">
+                    <div class="shade-header text-center">
+                        <h2 class="section-title" data-watermark="Palette">Color <span class="highlight-text">Library</span></h2>
+                        <p style="margin-bottom: 30px;">Explore our full catalogue of 2,000+ custom shades.</p>
+                    </div>
+
+                    <!-- TRIGGER BUTTON -->
+                    <div class="deck-trigger-wrapper">
+                        <button id="deck-toggle-btn" class="deck-reveal-btn">
+                            <span>🎨</span> Open Color Studio
+                        </button>
+                    </div>
+
+                    <!-- COLLAPSIBLE CONTENT -->
+                    <div id="deck-collapsible" class="deck-collapsible-content">
+                        <!-- Category Filter -->
+                        <div class="shade-controls">
+                            <div class="shade-categories" id="shade-categories">
+                                <button class="cat-btn active" data-family="all">All</button>
+                                <button class="cat-btn" data-family="neutral">Neutrals</button>
+                                <button class="cat-btn" data-family="red">Reds</button>
+                                <button class="cat-btn" data-family="orange">Oranges</button>
+                                <button class="cat-btn" data-family="yellow">Yellows</button>
+                                <button class="cat-btn" data-family="green">Greens</button>
+                                <button class="cat-btn" data-family="blue">Blues</button>
+                                <button class="cat-btn" data-family="purple">Purples</button>
+                            </div>
+                        </div>
+
+                        <!-- The Fan Deck (Grid of Strips) -->
+                        <div class="fan-deck-grid" id="fan-deck-grid">
+                            <!-- JS will inject "Page Strips" here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Paint Calculator -->
+                <div class="calculator-block fade-in">
+                    <h2 class="section-title text-center" data-watermark="Estimate">Paint <span class="highlight-text">Calculator</span></h2>
+                    <div class="calc-wrapper">
+                        <div class="calc-inputs">
+                            <div class="form-group">
+                                <label>Width (ft)</label>
+                                <input type="number" id="calc-width" placeholder="12">
+                            </div>
+                            <div class="form-group">
+                                <label>Height (ft)</label>
+                                <input type="number" id="calc-height" placeholder="10">
+                            </div>
+                            <div class="form-group">
+                                <label>Coats</label>
+                                <select id="calc-coats">
+                                    <option value="2">2 Coats</option>
+                                    <option value="3">3 Coats</option>
+                                </select>
+                            </div>
+                            <button class="btn btn-primary" onclick="calculatePaint()">Calculate</button>
+                        </div>
+                        <div class="calc-result">
+                            <h3>Approx Need:</h3>
+                            <span id="gallons">0</span> Gallons
+                            <p class="calc-note">(350 sq ft/gal)</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Blog Section -->
+        <section id="blog" class="section-padding">
+            <div class="container">
+                <h2 class="section-title text-center" data-watermark="Journal">Color <span class="highlight-text">Journal</span></h2>
+                <div class="blog-controls fade-in">
+                    <input type="text" id="blog-search" placeholder="Search inspiration...">
+                </div>
+                <div class="blog-list" id="blog-list">
+                    <!-- JS Injects Blog Posts Here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="section-padding contact-section">
+            <div class="container contact-grid">
+                <div class="contact-info fade-in mobile-order-2">
+                    <h3>Studio Info</h3>
+                    <p><strong>📞 Phone:</strong> <a href="tel:+1234567890">(555) 123-4567</a></p>
+                    <p><strong>📧 Email:</strong> <a href="mailto:hello@colorcraft.com">hello@colorcraft.com</a></p>
+                    <p><strong>📍 Studio:</strong> 12 Art District, Metro City</p>
+                    <div class="map-placeholder">Map View</div>
+                </div>
+
+                <div class="contact-form-wrapper fade-in mobile-order-1">
+                    <h2>Get a Quote</h2>
+                    <p style="color: #e5e7eb; margin-bottom: 20px;">Tell us about your vision.</p>
+                    <form id="contact-form">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="type">Project Type</label>
+                            <select id="type" name="project_type">
+                                <option value="Interior">Interior</option>
+                                <option value="Exterior">Exterior</option>
+                                <option value="Office">Commercial</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Details</label>
+                            <textarea id="message" name="message" rows="4" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary full-width" style="border: 2px solid white;">Send Request</button>
+                        <p id="form-status"></p>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container text-center" style="padding: 60px 0; color: #666;">
+            <p>&copy; 2025 ColorCraft Painters.</p>
+        </div>
+    </footer>
+
+    <!-- MODALS -->
+    <div id="project-modal" class="modal" aria-hidden="true">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <button class="modal-close" aria-label="Close Modal">&times;</button>
+            <div id="project-modal-body"></div>
+        </div>
+    </div>
+
+    <div id="blog-modal" class="modal" aria-hidden="true">
+        <div class="modal-overlay"></div>
+        <div class="modal-content blog-modal-content">
+            <button class="modal-close" aria-label="Close Modal">&times;</button>
+            <div id="blog-modal-body"></div>
+        </div>
+    </div>
+
+    <div id="strip-modal" class="modal" aria-hidden="true">
+        <div class="modal-overlay"></div>
+        <div class="modal-content strip-modal-content">
+            <button class="modal-close" aria-label="Close Modal">&times;</button>
+            <div class="strip-view-container">
+                <div class="strip-header">
+                    <span class="strip-id" id="modal-strip-id">Page R-1</span>
+                    <h3 id="modal-strip-name">Rose Garden</h3>
+                </div>
+                <div class="strip-colors-list" id="modal-strip-list"></div>
+                <p class="copy-hint">Tap a color bar to copy code.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/js/main.js"></script>
+</body>
+</html>
