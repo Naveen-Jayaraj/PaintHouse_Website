@@ -181,7 +181,8 @@ h1, h2, h3, h4 {
 
 .btn-secondary { 
     background: var(--white); 
-    color: var(--primary); 
+    /* FIX: Changed color to Darker Indigo for contrast */
+    color: #4338ca; 
     border: 2px solid var(--white);
     margin-left: 10px; 
 }
@@ -301,7 +302,15 @@ header {
 }
 .stat-card { flex: 1; min-width: 100px; }
 .stat-card .icon { font-size: 2rem; margin-bottom: 5px; }
-.stat-card h3 { font-size: 2.2rem; margin-bottom: 0; line-height: 1.2; font-family: var(--font-heading); }
+
+/* FIX: Updated selector for accessibility */
+.stat-card .stat-number { 
+    font-size: 2.2rem; 
+    margin-bottom: 0; 
+    line-height: 1.2; 
+    font-family: var(--font-heading);
+    font-weight: 400; 
+}
 .stat-card p { font-size: 0.9rem; color: var(--gray-text); margin: 0; font-weight: 700; }
 
 /* =========================================
@@ -403,7 +412,14 @@ header {
 .review-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(99, 102, 241, 0.1); border-color: var(--primary); }
 .review-header { display: flex; align-items: center; gap: 20px; margin-bottom: 25px; }
 .review-header img { width: 65px; height: 65px; border-radius: 50%; object-fit: cover; border: 3px solid #e2e8f0; }
-.header-info h4 { margin: 0; font-size: 1.2rem; font-weight: 700; color: var(--dark-text); }
+
+/* FIX: Updated selector for accessibility */
+.header-info h3 { 
+    margin: 0; 
+    font-size: 1.2rem; 
+    font-weight: 700; 
+    color: var(--dark-text); 
+}
 .stars { font-size: 0.9rem; color: #fbbf24; margin-top: 5px; }
 .review-text { font-size: 1.05rem; color: var(--gray-text); line-height: 1.6; font-style: italic; }
 
@@ -529,7 +545,8 @@ header {
         margin-top: -40px; padding: 15px 10px; gap: 10px; width: 92%; border-radius: 16px;
     }
     .stat-card .icon { font-size: 1.5rem; margin-bottom: 2px; }
-    .stat-card h3 { font-size: 1.5rem; }
+    /* Styles for stat-number handled by main class, override specific mobile sizes if needed here */
+    .stat-card .stat-number { font-size: 1.5rem; } 
     .stat-card p { font-size: 0.75rem; }
 
     /* 6. FIX 5: Disable 3D Card Effects & Rotation for Mobile */
@@ -567,7 +584,7 @@ header {
 @media (max-width: 480px) {
     .btn { padding: 15px 30px; width: 100%; text-align: center; margin-left: 0 !important; margin-bottom: 10px; }
     .hero-btns { display: flex; flex-direction: column; gap: 10px; }
-    .stat-card h3 { font-size: 1.4rem; }
+    .stat-card .stat-number { font-size: 1.4rem; }
     .fan-deck-grid { gap: 15px; grid-template-columns: 1fr 1fr; }
     .strip-card .strip-preview-bands { height: 120px; }
     .color-bar { padding: 0 15px; }

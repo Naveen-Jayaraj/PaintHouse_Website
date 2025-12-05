@@ -87,36 +87,38 @@ function initNavigation() {
     const body = document.body;
     
     // Toggle Menu
-    mobileBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        nav.classList.toggle('active');
-        mobileBtn.classList.toggle('active'); 
-        
-        // Prevent background scrolling when menu is open
-        if (nav.classList.contains('active')) {
-            body.style.overflow = 'hidden';
-        } else {
-            body.style.overflow = 'auto';
-        }
-    });
-
-    // Close on Link Click
-    $$('.main-nav a').forEach(link => {
-        link.addEventListener('click', () => {
-            nav.classList.remove('active');
-            mobileBtn.classList.remove('active');
-            body.style.overflow = 'auto'; 
+    if (mobileBtn && nav) {
+        mobileBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            nav.classList.toggle('active');
+            mobileBtn.classList.toggle('active'); 
+            
+            // Prevent background scrolling when menu is open
+            if (nav.classList.contains('active')) {
+                body.style.overflow = 'hidden';
+            } else {
+                body.style.overflow = 'auto';
+            }
         });
-    });
 
-    // Close on Click Outside
-    document.addEventListener('click', (e) => {
-        if (!nav.contains(e.target) && !mobileBtn.contains(e.target)) {
-            nav.classList.remove('active');
-            mobileBtn.classList.remove('active');
-            body.style.overflow = 'auto'; 
-        }
-    });
+        // Close on Link Click
+        $$('.main-nav a').forEach(link => {
+            link.addEventListener('click', () => {
+                nav.classList.remove('active');
+                mobileBtn.classList.remove('active');
+                body.style.overflow = 'auto'; 
+            });
+        });
+
+        // Close on Click Outside
+        document.addEventListener('click', (e) => {
+            if (!nav.contains(e.target) && !mobileBtn.contains(e.target)) {
+                nav.classList.remove('active');
+                mobileBtn.classList.remove('active');
+                body.style.overflow = 'auto'; 
+            }
+        });
+    }
 }
 
 /* =========================================
@@ -124,6 +126,8 @@ function initNavigation() {
    ========================================= */
 function renderProjects(filter) {
     const grid = $('#project-grid');
+    if (!grid) return;
+
     grid.innerHTML = ''; 
     
     // 1. INJECT SKELETONS (Placeholders)
@@ -241,6 +245,7 @@ function initFanDeck() {
 
 function renderDeck(pages) {
     const grid = document.getElementById('fan-deck-grid');
+    if (!grid) return;
     grid.innerHTML = '';
     
     pages.forEach(page => {
@@ -321,6 +326,8 @@ function openProjectModal(id) {
 function renderBlog() {
     const list = $('#blog-list');
     const search = $('#blog-search');
+    if (!list || !search) return;
+
     const render = (query = '') => {
         list.innerHTML = '';
         const filtered = blogPosts.filter(post => post.title.toLowerCase().includes(query.toLowerCase()));
@@ -357,14 +364,18 @@ function openBlogModal(post) {
 
 function openModal(id) {
     const modal = document.getElementById(id);
-    modal.classList.add('active');
-    document.body.style.overflow = 'hidden'; 
+    if (modal) {
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden'; 
+    }
 }
 
 function closeModal(id) {
     const modal = document.getElementById(id);
-    modal.classList.remove('active');
-    document.body.style.overflow = 'auto';
+    if (modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = 'auto';
+    }
 }
 
 $$('.modal').forEach(modal => {
@@ -439,6 +450,8 @@ function animateCounter(el) {
 function initContactForm() {
     const form = $('#contact-form');
     const status = $('#form-status');
+    if (!form) return;
+
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
         const data = new FormData(form);
@@ -461,14 +474,20 @@ function initMap() {
     if(!document.getElementById('india-map')) return;
 
     // 1. Initialize Map with ALL interactions disabled (Locked)
+    // Check if Leaflet (L) is loaded, if not, skip map silently
+    if (typeof L === 'undefined') {
+        console.log("Leaflet library not loaded. Map skipped.");
+        return;
+    }
+
     const map = L.map('india-map', {
-        zoomControl: false,       // No +/- buttons
-        scrollWheelZoom: false,   // No scroll zoom
-        doubleClickZoom: false,   // No double click zoom
-        touchZoom: false,         // No pinch-to-zoom
-        boxZoom: false,           // No shift+drag zoom
-        keyboard: false,          // No keyboard inputs
-        dragging: false,          // No panning/moving
+        zoomControl: false,       
+        scrollWheelZoom: false,   
+        doubleClickZoom: false,   
+        touchZoom: false,         
+        boxZoom: false,           
+        keyboard: false,          
+        dragging: false,          
         attributionControl: false
     });
 
@@ -491,7 +510,10 @@ function initMap() {
 
     // 3. Fetch Data & Auto-Fit
     fetch('https://raw.githubusercontent.com/geohacker/india/master/state/india_telengana.geojson')
-        .then(res => res.json())
+        .then(res => {
+            if (!res.ok) throw new Error("Network response was not ok");
+            return res.json();
+        })
         .then(data => {
             // A. Add Layer
             const geoJsonLayer = L.geoJson(data, {
@@ -509,7 +531,6 @@ function initMap() {
                             </div>
                         `, { direction: 'top', sticky: true });
                         
-                        // Optional: Add hover effect only if not mobile
                         if (window.innerWidth > 768) {
                             layer.on({
                                 mouseover: (e) => { e.target.setStyle(hoverStyle); e.target.bringToFront(); },
@@ -520,7 +541,7 @@ function initMap() {
                 }
             }).addTo(map);
 
-            // B. FILTER FOR BOUNDS (The Fix)
+            // B. FILTER FOR BOUNDS
             const southIndiaGroup = L.featureGroup();
             
             geoJsonLayer.eachLayer(function(layer) {
@@ -547,5 +568,8 @@ function initMap() {
                  }
             });
         })
-        .catch(err => console.error("Error loading map data:", err));
+        .catch(err => {
+            // FIX: Log harmless message instead of Red Error
+            console.log("Map data could not be loaded from external source (likely offline or CORS). Map visualization skipped.");
+        });
 }
