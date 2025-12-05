@@ -29,10 +29,9 @@
             <nav class="main-nav">
                 <ul>
                     <li><a href="#home">Home</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#projects">Projects</a></li>
-                    <li><a href="#tools">Tools</a></li>
-                    <li><a href="#blog">Blog</a></li>
+                    <li><a href="#projects">Work</a></li>
+                    <li><a href="#about">Studio</a></li>
+                    <li><a href="#tools">Colors</a></li>
                     <li><a href="#contact" class="btn-nav">Get a Quote</a></li>
                 </ul>
             </nav>
@@ -50,15 +49,6 @@
                         <a href="#contact" class="btn btn-primary">Free Quote</a>
                         <a href="#projects" class="btn btn-secondary">View Art</a>
                     </div>
-                </div>
-            </div>
-
-            <div class="carousel-section fade-in">
-                <div class="container">
-                    <h3>Featured Transformations</h3>
-                </div>
-                <div class="carousel-container" id="project-carousel">
-                    <div class="carousel-track"></div>
                 </div>
             </div>
 
@@ -81,6 +71,22 @@
             </div>
         </section>
 
+        <section id="projects" class="section-padding">
+            <div class="container">
+                <h2 class="section-title text-center" data-watermark="Portfolio">Our <span class="highlight-text">Masterpieces</span></h2>
+                
+                <div class="filters text-center fade-in">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="interior">Interior</button>
+                    <button class="filter-btn" data-filter="exterior">Exterior</button>
+                    <button class="filter-btn" data-filter="commercial">Commercial</button>
+                </div>
+
+                <div class="project-grid" id="project-grid">
+                    </div>
+            </div>
+        </section>
+
         <section id="about" class="section-padding bg-white relative-section">
             <div class="blob blob-1"></div>
             
@@ -96,63 +102,8 @@
                         <li>🧹 Dust-free Cleanliness</li>
                         <li>🌿 Premium Eco-Paints</li>
                     </ul>
-                    <a href="#projects" class="btn btn-primary" style="margin-top:20px;">See Our Projects</a>
                 </div>
             </div>
-        </section>
-
-        <section id="projects" class="section-padding">
-            <div class="container">
-                <h2 class="section-title text-center" data-watermark="Portfolio">Our <span class="highlight-text">Masterpieces</span></h2>
-                
-                <div class="filters text-center fade-in">
-                    <button class="filter-btn active" data-filter="all">All</button>
-                    <button class="filter-btn" data-filter="interior">Interior</button>
-                    <button class="filter-btn" data-filter="exterior">Exterior</button>
-                    <button class="filter-btn" data-filter="commercial">Commercial</button>
-                </div>
-
-                <div class="project-grid" id="project-grid">
-                </div>
-            </div>
-        </section>
-
-        <section id="tools" class="section-padding bg-white relative-section">
-            <div class="blob blob-2"></div>
-            <div class="container">
-                
-                <div class="shade-card-interface fade-in">
-                    <div class="shade-header text-center">
-                        <h2 class="section-title" data-watermark="Palette">Color <span class="highlight-text">Library</span></h2>
-                        <p style="margin-bottom: 30px;">Explore our full catalogue of 2,000+ custom shades.</p>
-                    </div>
-
-                    <div class="deck-trigger-wrapper">
-                        <button id="deck-toggle-btn" class="deck-reveal-btn">
-                            <span>🎨</span> Open Color Studio
-                        </button>
-                    </div>
-
-                    <div id="deck-collapsible" class="deck-collapsible-content">
-                        <div class="shade-controls">
-                            <div class="shade-categories" id="shade-categories">
-                                <button class="cat-btn active" data-family="all">All</button>
-                                <button class="cat-btn" data-family="neutral">Neutrals</button>
-                                <button class="cat-btn" data-family="red">Reds</button>
-                                <button class="cat-btn" data-family="orange">Oranges</button>
-                                <button class="cat-btn" data-family="yellow">Yellows</button>
-                                <button class="cat-btn" data-family="green">Greens</button>
-                                <button class="cat-btn" data-family="blue">Blues</button>
-                                <button class="cat-btn" data-family="purple">Purples</button>
-                            </div>
-                        </div>
-
-                        <div class="fan-deck-grid" id="fan-deck-grid">
-                        </div>
-                    </div>
-                </div>
-                
-                </div>
         </section>
 
         <section id="testimonials" class="section-padding">
@@ -198,18 +149,45 @@
             </div>
         </section>
 
-        <section id="blog" class="section-padding">
+        <section id="tools" class="section-padding bg-white relative-section">
+            <div class="blob blob-2"></div>
             <div class="container">
-                <h2 class="section-title text-center" data-watermark="Journal">Color <span class="highlight-text">Journal</span></h2>
-                <div class="blog-controls fade-in">
-                    <input type="text" id="blog-search" placeholder="Search inspiration...">
+                
+                <div class="shade-card-interface fade-in">
+                    <div class="shade-header text-center">
+                        <h2 class="section-title" data-watermark="Palette">Color <span class="highlight-text">Library</span></h2>
+                        <p style="margin-bottom: 30px;">Explore our full catalogue of 2,000+ custom shades.</p>
+                    </div>
+
+                    <div class="deck-trigger-wrapper">
+                        <button id="deck-toggle-btn" class="deck-reveal-btn">
+                            <span>🎨</span> Open Color Studio
+                        </button>
+                    </div>
+
+                    <div id="deck-collapsible" class="deck-collapsible-content">
+                        <div class="shade-controls">
+                            <div class="shade-categories" id="shade-categories">
+                                <button class="cat-btn active" data-family="all">All</button>
+                                <button class="cat-btn" data-family="neutral">Neutrals</button>
+                                <button class="cat-btn" data-family="red">Reds</button>
+                                <button class="cat-btn" data-family="orange">Oranges</button>
+                                <button class="cat-btn" data-family="yellow">Yellows</button>
+                                <button class="cat-btn" data-family="green">Greens</button>
+                                <button class="cat-btn" data-family="blue">Blues</button>
+                                <button class="cat-btn" data-family="purple">Purples</button>
+                            </div>
+                        </div>
+
+                        <div class="fan-deck-grid" id="fan-deck-grid">
+                            </div>
+                    </div>
                 </div>
-                <div class="blog-list" id="blog-list">
-                </div>
+                
             </div>
         </section>
 
-        <section id="service-map" class="section-padding bg-white relative-section">
+        <section id="service-map" class="section-padding">
             <div class="container">
                 <div class="text-center">
                     <h2 class="section-title" data-watermark="Coverage">Where We <span class="highlight-text">Serve</span></h2>
@@ -222,6 +200,17 @@
                     <span class="legend-item"><span class="dot active"></span> Active Service</span>
                     <span class="legend-item"><span class="dot inactive"></span> Expansion Zones</span>
                 </div>
+            </div>
+        </section>
+
+        <section id="blog" class="section-padding bg-white relative-section">
+            <div class="container">
+                <h2 class="section-title text-center" data-watermark="Journal">Color <span class="highlight-text">Journal</span></h2>
+                <div class="blog-controls fade-in">
+                    <input type="text" id="blog-search" placeholder="Search inspiration...">
+                </div>
+                <div class="blog-list" id="blog-list">
+                    </div>
             </div>
         </section>
 

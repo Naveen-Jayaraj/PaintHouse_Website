@@ -66,7 +66,6 @@ const blogPosts = [
    ========================================= */
 document.addEventListener('DOMContentLoaded', () => {
     initNavigation();
-    renderCarousel();
     renderProjects('all');
     renderBlog();
     initIntersectionObserver();
@@ -121,21 +120,7 @@ function initNavigation() {
 }
 
 /* =========================================
-   4. CAROUSEL
-   ========================================= */
-function renderCarousel() {
-    const track = $('.carousel-track');
-    projects.forEach(p => {
-        const slide = document.createElement('div');
-        slide.className = 'carousel-item';
-        slide.innerHTML = `<img src="${p.thumb}" alt="${p.name}"><div class="carousel-caption">${p.name}</div>`;
-        slide.addEventListener('click', () => openProjectModal(p.id));
-        track.appendChild(slide);
-    });
-}
-
-/* =========================================
-   5. PROJECT GRID (SKELETON VERSION)
+   4. PROJECT GRID (SKELETON VERSION)
    ========================================= */
 function renderProjects(filter) {
     const grid = $('#project-grid');
@@ -181,7 +166,7 @@ $$('.filter-btn').forEach(btn => {
 });
 
 /* =========================================
-   6. FAN DECK
+   5. FAN DECK
    ========================================= */
 let deckPages = []; 
 
@@ -313,7 +298,7 @@ function hslToHex(h, s, l) {
 }
 
 /* =========================================
-   7. MODAL UTILITIES
+   6. MODAL UTILITIES
    ========================================= */
 function openProjectModal(id) {
     const p = projects.find(proj => proj.id === id);
@@ -389,7 +374,7 @@ $$('.modal').forEach(modal => {
 });
 
 /* =========================================
-   8. TYPING & ANIMATION
+   7. TYPING & ANIMATION
    ========================================= */
 class TypeWriter {
     constructor(txtElement, words, wait = 3000) {
@@ -470,7 +455,7 @@ function initContactForm() {
 }
 
 /* =========================================
-   9. SERVICE MAP LOGIC (PERFECT FIT & LOCKED)
+   8. SERVICE MAP LOGIC
    ========================================= */
 function initMap() {
     if(!document.getElementById('india-map')) return;
@@ -536,8 +521,6 @@ function initMap() {
             }).addTo(map);
 
             // B. FILTER FOR BOUNDS (The Fix)
-            // We want to zoom perfectly into South India.
-            // Create a temporary group of just the 3 states to measure them.
             const southIndiaGroup = L.featureGroup();
             
             geoJsonLayer.eachLayer(function(layer) {
@@ -548,18 +531,16 @@ function initMap() {
             });
 
             // C. FIT BOUNDS
-            // Calculates the perfect zoom/center for South India on ANY screen
             if (southIndiaGroup.getLayers().length > 0) {
                 map.fitBounds(southIndiaGroup.getBounds(), {
-                    padding: [20, 20], // Add small buffer so it doesn't touch edges
-                    animate: false     // Snap instantly
+                    padding: [20, 20], 
+                    animate: false     
                 });
             } else {
                 map.fitBounds(geoJsonLayer.getBounds());
             }
 
             // D. HANDLE WINDOW RESIZE
-            // If user rotates phone, re-fit the map so it stays perfect
             window.addEventListener('resize', () => {
                  if (southIndiaGroup.getLayers().length > 0) {
                     map.fitBounds(southIndiaGroup.getBounds(), { padding: [20, 20], animate: false });
