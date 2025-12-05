@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initContactForm();
     initTypeWriter();
     initFanDeck(); 
-    initMap(); // <-- NEW: Initialize Map
+    initMap(); 
 });
 
 const $ = (selector) => document.querySelector(selector);
@@ -91,7 +91,7 @@ function initNavigation() {
     mobileBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         nav.classList.toggle('active');
-        mobileBtn.classList.toggle('active'); // Add animation class to hamburger
+        mobileBtn.classList.toggle('active'); 
         
         // Prevent background scrolling when menu is open
         if (nav.classList.contains('active')) {
@@ -106,7 +106,7 @@ function initNavigation() {
         link.addEventListener('click', () => {
             nav.classList.remove('active');
             mobileBtn.classList.remove('active');
-            body.style.overflow = 'auto'; // Restore scroll
+            body.style.overflow = 'auto'; 
         });
     });
 
@@ -115,7 +115,7 @@ function initNavigation() {
         if (!nav.contains(e.target) && !mobileBtn.contains(e.target)) {
             nav.classList.remove('active');
             mobileBtn.classList.remove('active');
-            body.style.overflow = 'auto'; // Restore scroll
+            body.style.overflow = 'auto'; 
         }
     });
 }
@@ -181,7 +181,7 @@ $$('.filter-btn').forEach(btn => {
 });
 
 /* =========================================
-   6. FAN DECK & CALCULATOR
+   6. FAN DECK
    ========================================= */
 let deckPages = []; 
 
@@ -310,14 +310,6 @@ function hslToHex(h, s, l) {
         return Math.round(255 * color).toString(16).padStart(2, '0');
     };
     return `#${f(0)}${f(8)}${f(4)}`;
-}
-
-function calculatePaint() {
-    const width = parseFloat(document.getElementById('calc-width').value) || 0;
-    const height = parseFloat(document.getElementById('calc-height').value) || 0;
-    const coats = parseInt(document.getElementById('calc-coats').value) || 2;
-    const gallons = ((width * height * coats) / 350).toFixed(1);
-    document.getElementById('gallons').innerText = gallons;
 }
 
 /* =========================================
@@ -478,18 +470,20 @@ function initContactForm() {
 }
 
 /* =========================================
-   9. SERVICE MAP LOGIC (NEW)
+   9. SERVICE MAP LOGIC (PERFECT FIT & LOCKED)
    ========================================= */
 function initMap() {
     if(!document.getElementById('india-map')) return;
 
-    // 1. Initialize Map
+    // 1. Initialize Map with ALL interactions disabled (Locked)
     const map = L.map('india-map', {
-        center: [12.5, 78.5], 
-        zoom: 6,
-        zoomControl: false,
-        scrollWheelZoom: false,
-        dragging: !L.Browser.mobile,
+        zoomControl: false,       // No +/- buttons
+        scrollWheelZoom: false,   // No scroll zoom
+        doubleClickZoom: false,   // No double click zoom
+        touchZoom: false,         // No pinch-to-zoom
+        boxZoom: false,           // No shift+drag zoom
+        keyboard: false,          // No keyboard inputs
+        dragging: false,          // No panning/moving
         attributionControl: false
     });
 
@@ -499,43 +493,26 @@ function initMap() {
     const neutralColor = '#cbd5e1'; 
 
     const activeStyle = {
-        fillColor: brandColor,
-        weight: 2,
-        opacity: 1,
-        color: 'white',
-        dashArray: '0',
-        fillOpacity: 0.8
+        fillColor: brandColor, weight: 2, opacity: 1, color: 'white', fillOpacity: 0.8
     };
-
     const inactiveStyle = {
-        fillColor: neutralColor,
-        weight: 1,
-        opacity: 1,
-        color: 'white',
-        dashArray: '3',
-        fillOpacity: 0.3
+        fillColor: neutralColor, weight: 1, opacity: 1, color: 'white', fillOpacity: 0.3
     };
-
     const hoverStyle = {
-        weight: 3,
-        color: accentColor,
-        fillOpacity: 1
+        weight: 3, color: accentColor, fillOpacity: 1
     };
 
-    // 3. States we serve
     const servedStates = ['Kerala', 'Tamil Nadu', 'Karnataka'];
 
-    // 4. Fetch GeoJSON Data
+    // 3. Fetch Data & Auto-Fit
     fetch('https://raw.githubusercontent.com/geohacker/india/master/state/india_telengana.geojson')
         .then(res => res.json())
         .then(data => {
-            L.geoJson(data, {
+            // A. Add Layer
+            const geoJsonLayer = L.geoJson(data, {
                 style: function(feature) {
                     const name = feature.properties.NAME_1 || feature.properties.name;
-                    if (servedStates.includes(name)) {
-                        return activeStyle;
-                    }
-                    return inactiveStyle;
+                    return servedStates.includes(name) ? activeStyle : inactiveStyle;
                 },
                 onEachFeature: function(feature, layer) {
                     const name = feature.properties.NAME_1 || feature.properties.name;
@@ -546,22 +523,48 @@ function initMap() {
                                 <span style="font-size:0.8rem">Service Available ✅</span>
                             </div>
                         `, { direction: 'top', sticky: true });
-
-                        layer.on({
-                            mouseover: function(e) {
-                                e.target.setStyle(hoverStyle);
-                                e.target.bringToFront();
-                            },
-                            mouseout: function(e) {
-                                e.target.setStyle(activeStyle);
-                            },
-                            click: function() {
-                                document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
-                            }
-                        });
+                        
+                        // Optional: Add hover effect only if not mobile
+                        if (window.innerWidth > 768) {
+                            layer.on({
+                                mouseover: (e) => { e.target.setStyle(hoverStyle); e.target.bringToFront(); },
+                                mouseout: (e) => { e.target.setStyle(activeStyle); }
+                            });
+                        }
                     }
                 }
             }).addTo(map);
+
+            // B. FILTER FOR BOUNDS (The Fix)
+            // We want to zoom perfectly into South India.
+            // Create a temporary group of just the 3 states to measure them.
+            const southIndiaGroup = L.featureGroup();
+            
+            geoJsonLayer.eachLayer(function(layer) {
+                const name = layer.feature.properties.NAME_1 || layer.feature.properties.name;
+                if (servedStates.includes(name)) {
+                    southIndiaGroup.addLayer(layer);
+                }
+            });
+
+            // C. FIT BOUNDS
+            // Calculates the perfect zoom/center for South India on ANY screen
+            if (southIndiaGroup.getLayers().length > 0) {
+                map.fitBounds(southIndiaGroup.getBounds(), {
+                    padding: [20, 20], // Add small buffer so it doesn't touch edges
+                    animate: false     // Snap instantly
+                });
+            } else {
+                map.fitBounds(geoJsonLayer.getBounds());
+            }
+
+            // D. HANDLE WINDOW RESIZE
+            // If user rotates phone, re-fit the map so it stays perfect
+            window.addEventListener('resize', () => {
+                 if (southIndiaGroup.getLayers().length > 0) {
+                    map.fitBounds(southIndiaGroup.getBounds(), { padding: [20, 20], animate: false });
+                 }
+            });
         })
         .catch(err => console.error("Error loading map data:", err));
 }
