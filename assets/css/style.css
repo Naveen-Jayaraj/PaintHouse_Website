@@ -246,14 +246,28 @@ header {
     mix-blend-mode: multiply;
 }
 .hero-content { position: relative; z-index: 2; max-width: 900px; width: 100%; padding: 0 20px; }
-.hero h1 { font-size: 5rem; margin-bottom: 1.5rem; color: white; line-height: 1.1; min-height: 160px; }
+
+/* --- UPDATED DESKTOP RULE FOR STABILITY --- */
+.hero h1 { 
+    font-size: 5rem; 
+    margin-bottom: 1.5rem; 
+    color: white; 
+    line-height: 1.1; 
+    /* Ensures space is reserved so it doesn't jump */
+    min-height: 2.5em; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+/* ------------------------------------------- */
+
 .hero p { font-size: 1.6rem; margin-bottom: 3.5rem; opacity: 0.95; font-weight: 400; font-family: var(--font-body); }
 
 /* TYPING CURSOR */
 .txt-type { color: var(--accent); text-decoration: none; position: relative; }
 .txt-type::after {
     content: ''; border-right: 4px solid var(--white);
-    position: absolute; right: -10px; top: 5px; bottom: 5px;
+    position: absolute;  top: 5px; bottom: 5px;
     animation: blink 0.7s infinite;
 }
 @keyframes blink { 0% { opacity: 0; } 50% { opacity: 1; } 100% { opacity: 0; } }
@@ -353,6 +367,62 @@ header {
 .card-tag { font-size: 0.7rem; text-transform: uppercase; color: var(--highlight); font-weight: 800; letter-spacing: 1px; }
 .card-body h3 { color: var(--dark-text); font-size: 1.3rem; margin: 5px 0 0; font-family: var(--font-heading); }
 
+/* =========================================
+   SKELETON LOADING ANIMATION
+   ========================================= */
+@keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
+.skeleton {
+    background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite linear;
+}
+
+/* Matches the exact shape of your .project-card */
+.skeleton-card {
+    background: white;
+    border-radius: 4px;
+    border: 15px solid white;
+    border-bottom: 70px solid white; /* Matches the text area of real card */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    height: 360px; /* Approximate height of your real cards */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    position: relative;
+}
+
+/* The grey box where the image will be */
+.skeleton-img {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+/* The text lines */
+.skeleton-text {
+    height: 20px;
+    width: 70%;
+    margin-top: 15px;
+    border-radius: 4px;
+    position: relative;
+    z-index: 2; /* Sits on top of the white border-bottom */
+    margin-bottom: 10px;
+}
+
+.skeleton-tag {
+    height: 12px;
+    width: 30%;
+    border-radius: 4px;
+    position: relative;
+    z-index: 2;
+}
 /* =========================================
    8. FAN DECK & CALCULATOR
    ========================================= */
@@ -502,10 +572,18 @@ header {
     }
     
     /* 3. Fluid Typography */
+    
+    /* --- FIX: STABLE HEIGHT TO PREVENT JUMPING --- */
     .hero h1 {
         font-size: clamp(2.5rem, 8vw, 3.5rem) !important;
-        min-height: auto;
+        /* Replaces 'min-height: auto' with fixed height */
+        min-height: 2.5em; 
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
     }
+    /* --------------------------------------------- */
+
     .hero p {
         font-size: 1.2rem;
         margin-bottom: 2rem;
@@ -588,4 +666,55 @@ header {
     .color-bar { padding: 0 15px; }
     .cb-name { font-size: 0.9rem; }
     .cb-hex { font-size: 0.8rem; }
+}
+/* =========================================
+   SERVICE MAP STYLES
+   ========================================= */
+.map-container {
+    height: 600px;
+    width: 100%;
+    background: #f8fafc; /* Light background for the "sea" */
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    border: 15px solid white; /* Frame effect */
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.map-legend {
+    margin-top: 30px;
+}
+
+.legend-item {
+    display: inline-flex;
+    align-items: center;
+    margin: 0 15px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--gray-text);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.legend-item .dot {
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    margin-right: 10px;
+    display: inline-block;
+}
+
+.legend-item .dot.active { 
+    background-color: var(--primary); 
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2); 
+}
+
+.legend-item .dot.inactive { 
+    background-color: #cbd5e1; 
+}
+
+/* Mobile Adjustments */
+@media (max-width: 768px) {
+    .map-container { height: 400px; }
+    .legend-item { display: block; margin: 10px 0; }
 }

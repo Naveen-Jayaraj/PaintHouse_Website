@@ -5,17 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>ColorCraft Painters | Artistic & Professional</title>
     
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
     
-    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
 
-    <!-- Header / Navigation -->
     <header id="main-header">
         <div class="container nav-container">
             <a href="#home" class="logo">
@@ -40,12 +40,10 @@
     </header>
 
     <main>
-        <!-- Home Section -->
         <section id="home">
             <div class="hero">
                 <div class="hero-overlay"></div>
                 <div class="container hero-content fade-in">
-                    <!-- Typing Effect -->
                     <h1>We Paint <span class="txt-type" data-wait="2000" data-words='["Homes", "Offices", "Interiors", "Dreams"]'></span></h1>
                     <p>More than just paint. We create atmosphere, mood, and vibrant spaces.</p>
                     <div class="hero-btns">
@@ -55,7 +53,6 @@
                 </div>
             </div>
 
-            <!-- Featured Carousel -->
             <div class="carousel-section fade-in">
                 <div class="container">
                     <h3>Featured Transformations</h3>
@@ -65,7 +62,6 @@
                 </div>
             </div>
 
-            <!-- Achievements -->
             <div class="achievements container fade-in">
                 <div class="stat-card">
                     <div class="icon" style="color: var(--primary);">🏠</div>
@@ -85,7 +81,6 @@
             </div>
         </section>
 
-        <!-- About Section (White BG with Dividers) -->
         <section id="about" class="section-padding bg-white relative-section">
             <div class="blob blob-1"></div>
             
@@ -106,12 +101,10 @@
             </div>
         </section>
 
-        <!-- Projects Section -->
         <section id="projects" class="section-padding">
             <div class="container">
                 <h2 class="section-title text-center" data-watermark="Portfolio">Our <span class="highlight-text">Masterpieces</span></h2>
                 
-                <!-- Filters -->
                 <div class="filters text-center fade-in">
                     <button class="filter-btn active" data-filter="all">All</button>
                     <button class="filter-btn" data-filter="interior">Interior</button>
@@ -119,14 +112,11 @@
                     <button class="filter-btn" data-filter="commercial">Commercial</button>
                 </div>
 
-                <!-- Grid -->
                 <div class="project-grid" id="project-grid">
-                    <!-- JS Injects Cards Here -->
-                </div>
+                    </div>
             </div>
         </section>
 
-        <!-- PROFESSIONAL FAN DECK TOOL (White BG with Dividers) -->
         <section id="tools" class="section-padding bg-white relative-section">
             <div class="blob blob-2"></div>
             <div class="container">
@@ -137,16 +127,13 @@
                         <p style="margin-bottom: 30px;">Explore our full catalogue of 2,000+ custom shades.</p>
                     </div>
 
-                    <!-- TRIGGER BUTTON -->
                     <div class="deck-trigger-wrapper">
                         <button id="deck-toggle-btn" class="deck-reveal-btn">
                             <span>🎨</span> Open Color Studio
                         </button>
                     </div>
 
-                    <!-- COLLAPSIBLE CONTENT -->
                     <div id="deck-collapsible" class="deck-collapsible-content">
-                        <!-- Category Filter -->
                         <div class="shade-controls">
                             <div class="shade-categories" id="shade-categories">
                                 <button class="cat-btn active" data-family="all">All</button>
@@ -160,14 +147,11 @@
                             </div>
                         </div>
 
-                        <!-- The Fan Deck (Grid of Strips) -->
                         <div class="fan-deck-grid" id="fan-deck-grid">
-                            <!-- JS will inject "Page Strips" here -->
-                        </div>
+                            </div>
                     </div>
                 </div>
 
-                <!-- Paint Calculator -->
                 <div class="calculator-block fade-in">
                     <h2 class="section-title text-center" data-watermark="Estimate">Paint <span class="highlight-text">Calculator</span></h2>
                     <div class="calc-wrapper">
@@ -200,7 +184,6 @@
             </div>
         </section>
 
-        <!-- Blog Section -->
         <section id="blog" class="section-padding">
             <div class="container">
                 <h2 class="section-title text-center" data-watermark="Journal">Color <span class="highlight-text">Journal</span></h2>
@@ -208,12 +191,26 @@
                     <input type="text" id="blog-search" placeholder="Search inspiration...">
                 </div>
                 <div class="blog-list" id="blog-list">
-                    <!-- JS Injects Blog Posts Here -->
+                    </div>
+            </div>
+        </section>
+
+        <section id="service-map" class="section-padding bg-white relative-section">
+            <div class="container">
+                <div class="text-center">
+                    <h2 class="section-title" data-watermark="Coverage">Where We <span class="highlight-text">Serve</span></h2>
+                    <p style="margin-bottom: 40px;">Bringing color to homes across South India.</p>
+                </div>
+                
+                <div id="india-map" class="map-container fade-in"></div>
+                
+                <div class="map-legend text-center">
+                    <span class="legend-item"><span class="dot active"></span> Active Service</span>
+                    <span class="legend-item"><span class="dot inactive"></span> Expansion Zones</span>
                 </div>
             </div>
         </section>
 
-        <!-- Contact Section -->
         <section id="contact" class="section-padding contact-section">
             <div class="container contact-grid">
                 <div class="contact-info fade-in mobile-order-2">
@@ -262,7 +259,6 @@
         </div>
     </footer>
 
-    <!-- MODALS -->
     <div id="project-modal" class="modal" aria-hidden="true">
         <div class="modal-overlay"></div>
         <div class="modal-content">

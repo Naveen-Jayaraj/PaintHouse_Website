@@ -73,6 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initContactForm();
     initTypeWriter();
     initFanDeck(); 
+    initMap(); // <-- NEW: Initialize Map
 });
 
 const $ = (selector) => document.querySelector(selector);
@@ -134,24 +135,41 @@ function renderCarousel() {
 }
 
 /* =========================================
-   5. PROJECT GRID
+   5. PROJECT GRID (SKELETON VERSION)
    ========================================= */
 function renderProjects(filter) {
     const grid = $('#project-grid');
     grid.innerHTML = ''; 
-    const filtered = filter === 'all' ? projects : projects.filter(p => p.type === filter);
+    
+    // 1. INJECT SKELETONS (Placeholders)
+    const skeletonHTML = `
+        <div class="skeleton-card">
+            <div class="skeleton skeleton-img"></div>
+            <div class="skeleton skeleton-tag"></div>
+            <div class="skeleton skeleton-text"></div>
+        </div>
+    `;
+    // Add 6 skeletons to grid
+    grid.innerHTML = skeletonHTML.repeat(6);
 
-    filtered.forEach(p => {
-        const card = document.createElement('div');
-        card.className = 'project-card fade-in';
-        card.innerHTML = `
-            <div class="card-img"><img src="${p.thumb}" alt="${p.name}"></div>
-            <div class="card-body"><div class="card-tag">${p.type}</div><h3>${p.name}</h3></div>
-        `;
-        card.addEventListener('click', () => openProjectModal(p.id));
-        grid.appendChild(card);
-    });
-    initIntersectionObserver();
+    // 2. SIMULATE LOADING (0.8s)
+    setTimeout(() => {
+        grid.innerHTML = ''; // Clear skeletons
+        
+        const filtered = filter === 'all' ? projects : projects.filter(p => p.type === filter);
+
+        filtered.forEach(p => {
+            const card = document.createElement('div');
+            card.className = 'project-card fade-in';
+            card.innerHTML = `
+                <div class="card-img"><img src="${p.thumb}" alt="${p.name}"></div>
+                <div class="card-body"><div class="card-tag">${p.type}</div><h3>${p.name}</h3></div>
+            `;
+            card.addEventListener('click', () => openProjectModal(p.id));
+            grid.appendChild(card);
+        });
+        initIntersectionObserver();
+    }, 800);
 }
 
 $$('.filter-btn').forEach(btn => {
@@ -168,7 +186,6 @@ $$('.filter-btn').forEach(btn => {
 let deckPages = []; 
 
 function initFanDeck() {
-    // 1. Initialize Toggle Button Logic
     const toggleBtn = document.getElementById('deck-toggle-btn');
     const content = document.getElementById('deck-collapsible');
     
@@ -185,11 +202,9 @@ function initFanDeck() {
         });
     }
 
-    // 2. Existing Generation Logic
     const grid = document.getElementById('fan-deck-grid');
     if (!grid) return;
 
-    // Define the "Pages" of the fan deck
     const pageDefinitions = [
         { family: 'neutral', hue: 210, sat: 5, startLight: 98, name: "Pure Whites" },
         { family: 'neutral', hue: 40, sat: 15, startLight: 95, name: "Warm Beiges" },
@@ -209,7 +224,6 @@ function initFanDeck() {
         { family: 'purple', hue: 280, sat: 65, startLight: 92, name: "Violets" }
     ];
 
-    // Generate Data
     deckPages = pageDefinitions.map((def, index) => {
         const colors = [];
         for (let i = 0; i < 6; i++) {
@@ -229,7 +243,6 @@ function initFanDeck() {
 
     renderDeck(deckPages);
 
-    // Filters
     document.querySelectorAll('.cat-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
             $$('.cat-btn').forEach(b => b.classList.remove('active'));
@@ -462,4 +475,93 @@ function initContactForm() {
             else { status.innerText = "Error sending."; status.style.color = "#f87171"; }
         } catch (error) { status.innerText = "Connection error."; status.style.color = "#f87171"; }
     });
+}
+
+/* =========================================
+   9. SERVICE MAP LOGIC (NEW)
+   ========================================= */
+function initMap() {
+    if(!document.getElementById('india-map')) return;
+
+    // 1. Initialize Map
+    const map = L.map('india-map', {
+        center: [12.5, 78.5], 
+        zoom: 6,
+        zoomControl: false,
+        scrollWheelZoom: false,
+        dragging: !L.Browser.mobile,
+        attributionControl: false
+    });
+
+    // 2. Define Styles
+    const brandColor = '#6366f1'; 
+    const accentColor = '#f59e0b'; 
+    const neutralColor = '#cbd5e1'; 
+
+    const activeStyle = {
+        fillColor: brandColor,
+        weight: 2,
+        opacity: 1,
+        color: 'white',
+        dashArray: '0',
+        fillOpacity: 0.8
+    };
+
+    const inactiveStyle = {
+        fillColor: neutralColor,
+        weight: 1,
+        opacity: 1,
+        color: 'white',
+        dashArray: '3',
+        fillOpacity: 0.3
+    };
+
+    const hoverStyle = {
+        weight: 3,
+        color: accentColor,
+        fillOpacity: 1
+    };
+
+    // 3. States we serve
+    const servedStates = ['Kerala', 'Tamil Nadu', 'Karnataka'];
+
+    // 4. Fetch GeoJSON Data
+    fetch('https://raw.githubusercontent.com/geohacker/india/master/state/india_telengana.geojson')
+        .then(res => res.json())
+        .then(data => {
+            L.geoJson(data, {
+                style: function(feature) {
+                    const name = feature.properties.NAME_1 || feature.properties.name;
+                    if (servedStates.includes(name)) {
+                        return activeStyle;
+                    }
+                    return inactiveStyle;
+                },
+                onEachFeature: function(feature, layer) {
+                    const name = feature.properties.NAME_1 || feature.properties.name;
+                    if (servedStates.includes(name)) {
+                        layer.bindTooltip(`
+                            <div style="text-align:center;">
+                                <strong style="color:${brandColor}">${name}</strong><br>
+                                <span style="font-size:0.8rem">Service Available ✅</span>
+                            </div>
+                        `, { direction: 'top', sticky: true });
+
+                        layer.on({
+                            mouseover: function(e) {
+                                e.target.setStyle(hoverStyle);
+                                e.target.bringToFront();
+                            },
+                            mouseout: function(e) {
+                                e.target.setStyle(activeStyle);
+                            },
+                            click: function() {
+                                document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+                            }
+                        });
+                    }
+                }
+            }).addTo(map);
+        })
+        .catch(err => console.error("Error loading map data:", err));
 }
